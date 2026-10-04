@@ -55,9 +55,37 @@ footer a{color:var(--gold)}
 .wa-float:hover{transform:scale(1.1)}
 @media(max-width:600px){.hero h1{font-size:1.9rem}.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}.card img{height:170px}}
 .flink{color:var(--gold-lt);margin:0 10px;font-size:.9rem}.flink:hover{text-decoration:underline}
+
+/* Announcement bar */
+.announce{background:linear-gradient(90deg,#b8860b,var(--gold-lt),#b8860b);color:#111;text-align:center;font-weight:700;font-size:.9rem;padding:9px 12px;letter-spacing:.3px}
+/* Best sellers */
+.best{max-width:1200px;margin:0 auto;padding:34px 20px 6px}
+.best h2{font-size:1.5rem;margin-bottom:4px;background:linear-gradient(135deg,var(--gold-lt),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
+.best .sub{color:var(--muted);font-size:.92rem;margin-bottom:16px}
+.best-row{display:flex;gap:16px;overflow-x:auto;padding-bottom:14px;scroll-snap-type:x mandatory}
+.best-row .card{min-width:210px;max-width:210px;scroll-snap-align:start}
+/* Testimonials */
+.testi{max-width:1100px;margin:0 auto;padding:44px 20px 10px;text-align:center}
+.testi h2{font-size:1.5rem;margin-bottom:6px;background:linear-gradient(135deg,var(--gold-lt),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
+.testi .sub{color:var(--muted);margin-bottom:22px}
+.t-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;text-align:left}
+.t-card{background:var(--dark);border:1px solid #333;border-radius:14px;padding:22px}
+.t-card .stars{color:var(--gold);letter-spacing:2px;margin-bottom:10px}
+.t-card p{color:#ddd;font-size:.94rem;margin-bottom:12px}
+.t-card .who{color:var(--gold-lt);font-size:.85rem;font-weight:600}
+/* WhatsApp updates CTA */
+.wa-cta{max-width:700px;margin:44px auto 10px;padding:36px 24px;text-align:center;background:radial-gradient(ellipse at center,#0f2a1a 0%,var(--dark) 75%);border:1px solid #1f4d2e;border-radius:18px}
+.wa-cta h2{font-size:1.4rem;margin-bottom:8px;color:#fff}
+.wa-cta p{color:var(--muted);margin-bottom:20px}
+.wa-btn{display:inline-block;background:#25D366;color:#fff;font-weight:700;padding:13px 30px;border-radius:30px;transition:.2s}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,211,102,.35)}
 </style>
+<!-- Google Analytics: apni GA4 Measurement ID yahan lagao (G-XXXXXXXXXX ki jagah) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
 </head>
 <body>
+<div class="announce">🎉 FREE delivery on orders over Rs 3,000 &nbsp;|&nbsp; 💵 Cash on Delivery across Pakistan</div>
 
 <header>
   <a href="#" class="logo">GLAMKART<span>BEAUTY & FASHION</span></a>
@@ -79,13 +107,34 @@ footer a{color:var(--gold)}
 </section>
 
 <section id="products">
-  <div class="toolbar">
+  <div class="best">
+  <h2>🔥 Best Sellers</h2>
+  <p class="sub">Our customers' most-loved picks this week</p>
+  <div class="best-row" id="bestGrid"></div>
+</div>
+<div class="toolbar">
     <input type="text" id="search" placeholder="🔍 Search products...">
     <select id="catFilter"><option value="">All Categories</option></select>
     <div id="count"></div>
   </div>
   <div class="grid" id="grid"></div>
 </section>
+
+<div class="testi">
+  <h2>⭐ Loved Across Pakistan</h2>
+  <p class="sub">Real reviews from our happy customers</p>
+  <div class="t-grid">
+    <div class="t-card"><div class="stars">★★★★★</div><p>"Ordered a handbag for my sister — quality was amazing and it arrived in 4 days. COD made it so easy!"</p><div class="who">— Ayesha K., Lahore</div></div>
+    <div class="t-card"><div class="stars">★★★★★</div><p>"Original products at such good prices. The WhatsApp support helped me pick the right shade. Highly recommended!"</p><div class="who">— Fatima R., Karachi</div></div>
+    <div class="t-card"><div class="stars">★★★★★</div><p>"My third order this month! Fast delivery to Islamabad and everything exactly as shown in pictures."</p><div class="who">— Mahnoor S., Islamabad</div></div>
+  </div>
+</div>
+
+<div class="wa-cta">
+  <h2>📲 New Arrivals on WhatsApp</h2>
+  <p>Join our WhatsApp list — be first to know about new products and special deals. No spam, ever.</p>
+  <a class="wa-btn" href="https://wa.me/923277518208?text=Hi%20GlamKart!%20Please%20add%20me%20to%20your%20WhatsApp%20updates%20list." target="_blank" rel="noopener">Join WhatsApp Updates</a>
+</div>
 
 <footer>
   <div class="flogo">GLAMKART</div>
@@ -139,6 +188,21 @@ function render(){
 searchInput.addEventListener('input', render);
 catFilter.addEventListener('change', render);
 render();
+// Best sellers: first 8 products in horizontal row
+(function(){
+  const bg = document.getElementById('bestGrid');
+  if(!bg || typeof PRODUCTS === 'undefined') return;
+  const top = PRODUCTS.slice(0, 8);
+  bg.innerHTML = top.map(p=>`
+    <div class="card">
+      <img src="${p.i}" alt="${p.t.replace(/"/g,'&quot;')}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22><rect fill=%22%23222%22 width=%22300%22 height=%22300%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23d4af37%22 font-size=%2240%22 text-anchor=%22middle%22>✨</text></svg>'">
+      <div class="card-body">
+        <div class="card-title">${p.t}</div>
+        <div class="card-price">${fmtPrice(p.p)}</div>
+        <a class="btn" href="${SHOP}${p.h}" target="_blank" rel="noopener">Order Now 🛒</a>
+      </div>
+    </div>`).join('');
+})();
 </script>
 </body>
 </html>
