@@ -83,8 +83,10 @@ footer .flogo{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg
 footer p{font-size:.9rem;max-width:500px;margin:0 auto 15px}
 footer a{color:var(--gold)}
 /* WhatsApp float */
-.wa-float{position:fixed;bottom:24px;right:24px;width:58px;height:58px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 6px 20px rgba(37,211,102,.4);z-index:99;transition:.2s}
+.wa-float{position:fixed;bottom:24px;right:24px;width:58px;height:58px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 6px 20px rgba(37,211,102,.4);z-index:99;transition:.2s;animation:waPulse 2s infinite}
 .wa-float:hover{transform:scale(1.1)}
+@keyframes waPulse{0%{box-shadow:0 0 0 0 rgba(37,211,102,.5)}70%{box-shadow:0 0 0 15px rgba(37,211,102,0)}100%{box-shadow:0 0 0 0 rgba(37,211,102,0)}}
+.wa-label{position:fixed;bottom:36px;right:92px;background:#fff;color:#111;font-size:.82rem;font-weight:600;padding:8px 14px;border-radius:20px;z-index:99;box-shadow:0 4px 12px rgba(0,0,0,.3);white-space:nowrap}
 @media(max-width:600px){.hero h1{font-size:1.9rem}.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}.card img{height:170px}}
 .flink{color:var(--gold-lt);margin:0 10px;font-size:.9rem}.flink:hover{text-decoration:underline}
 
@@ -136,6 +138,9 @@ footer a{color:var(--gold)}
 </head>
 <body>
 <div class="announce">🎉 FREE delivery on orders over Rs 3,000 &nbsp;|&nbsp; 💵 Cash on Delivery across Pakistan</div>
+<div class="flash-sale" id="flashSale" style="background:linear-gradient(90deg,#c1121f,#e63946,#c1121f);color:#fff;text-align:center;font-weight:700;padding:10px 12px;font-size:.92rem">
+  ⏰ FLASH SALE: Extra 10% OFF ends in <span id="flashTimer" style="background:#fff;color:#c1121f;padding:2px 10px;border-radius:8px;font-weight:800">23:59:59</span> — Use code <b>FLASH10</b> on WhatsApp!
+</div>
 
 <header>
   <a href="#" class="logo">GLAMKART<span>BEAUTY & FASHION</span></a>
@@ -204,6 +209,28 @@ footer a{color:var(--gold)}
   <p style="margin-top:10px">Shop <strong style="color:#ddd">100+ premium products</strong> with <strong style="color:#ddd">Cash on Delivery (COD)</strong> — no advance payment needed. From long-lasting lipsticks and glowing skincare serums to elegant gold-plated jewelry and luxury perfumes, find everything for your beauty routine at prices you'll love. Order easily on WhatsApp and pay when your parcel arrives. 💄✨</p>
 </div>
 
+<!-- Track Order + Loyalty + Referral -->
+<div class="perks" style="max-width:1100px;margin:30px auto 0;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
+  <div style="background:var(--dark);border:1px solid #333;border-radius:16px;padding:24px">
+    <h3 style="color:var(--gold-lt);margin-bottom:8px">📦 Track Your Order</h3>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Enter your phone number to check order status</p>
+    <input id="trackPhone" type="tel" placeholder="03XX XXXXXXX" style="width:100%;background:#111;border:1px solid #444;color:#fff;padding:11px 16px;border-radius:10px;margin-bottom:10px;font-size:.95rem;outline:none">
+    <button class="btn" onclick="trackOrder()" style="width:100%">Track Order 🔍</button>
+  </div>
+  <div style="background:var(--dark);border:1px solid #333;border-radius:16px;padding:24px">
+    <h3 style="color:var(--gold-lt);margin-bottom:8px">🏆 Loyalty Points</h3>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Earn 10 points per Rs 1,000 spent!</p>
+    <p style="font-size:1.6rem;font-weight:800;color:var(--gold-lt)"><span id="loyalPts">0</span> <span style="font-size:.9rem;color:var(--muted)">points</span></p>
+    <p style="color:var(--muted);font-size:.8rem;margin-top:8px">100 points = Rs 100 OFF your next order!</p>
+  </div>
+  <div style="background:var(--dark);border:1px solid #333;border-radius:16px;padding:24px">
+    <h3 style="color:var(--gold-lt);margin-bottom:8px">🎉 Refer & Earn</h3>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Dost ko lao, <b style="color:#fff">Rs 200 OFF</b> pao!</p>
+    <button class="btn" onclick="shareReferral()" style="width:100%">Share Referral Link 📲</button>
+    <p style="color:var(--muted);font-size:.8rem;margin-top:10px;text-align:center">Your code: <b id="refCode" style="color:var(--gold-lt)">GLAM-XXXX</b></p>
+  </div>
+</div>
+
 <div class="faq">
   <h2>❓ Frequently Asked Questions</h2>  <p class="sub">Everything you need to know before you order</p>
   <div class="faq-item"><button class="faq-q">How do I place an order? <span class="arrow">▼</span></button><div class="faq-a">Tap "Order Now" on any product — it takes you to WhatsApp with the product details already filled in. Just send the message and our team will confirm your order!</div></div>
@@ -232,6 +259,7 @@ footer a{color:var(--gold)}
   <p style="font-size:.8rem">© 2026 GlamKart. All rights reserved.</p>
 </footer>
 
+<div class="wa-label">💬 Chat with us — Live!</div>
 <a class="wa-float" href="https://wa.me/923277518208?text=Hi%20GlamKart!%20I%20want%20to%20order." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">💬</a>
 
 <script>
@@ -288,6 +316,48 @@ function render(){
 searchInput.addEventListener('input', render);
 catFilter.addEventListener('change', render);
 render();
+// Flash sale countdown (resets daily at midnight)
+(function(){
+  function tick(){
+    const now = new Date();
+    const end = new Date(); end.setHours(23,59,59,999);
+    let s = Math.max(0, Math.floor((end - now)/1000));
+    const h = String(Math.floor(s/3600)).padStart(2,'0');
+    const m = String(Math.floor(s%3600/60)).padStart(2,'0');
+    const sec = String(s%60).padStart(2,'0');
+    const el = document.getElementById('flashTimer');
+    if(el) el.textContent = `${h}:${m}:${sec}`;
+  }
+  tick(); setInterval(tick, 1000);
+})();
+// Order tracking via WhatsApp
+function trackOrder(){
+  const phone = document.getElementById('trackPhone').value.trim();
+  if(!phone){ alert('Please apna phone number likhein!'); return; }
+  const msg = `📦 ORDER TRACKING\n\nPhone: ${phone}\n\nPlease mere order ka status batayein!`;
+  window.open('https://wa.me/923277518208?text=' + encodeURIComponent(msg), '_blank');
+}
+// Loyalty points (localStorage)
+(function(){
+  let pts = parseInt(localStorage.getItem('glamkart_pts') || '0');
+  const el = document.getElementById('loyalPts');
+  if(el) el.textContent = pts;
+})();
+// Referral
+(function(){
+  let code = localStorage.getItem('glamkart_ref');
+  if(!code){
+    code = 'GLAM-' + Math.random().toString(36).substring(2,6).toUpperCase();
+    localStorage.setItem('glamkart_ref', code);
+  }
+  const el = document.getElementById('refCode');
+  if(el) el.textContent = code;
+})();
+function shareReferral(){
+  const code = localStorage.getItem('glamkart_ref') || 'GLAM-XXXX';
+  const msg = `🎉 GlamKart pe shopping karo!\n\nMera referral code: ${code}\nUse karo aur Rs 200 OFF pao!\n\nShop: https://glamkart.github.io/glamkart-site/`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
 // Review form: star rating + WhatsApp submit
 let rvRating = 5;
 (function(){
