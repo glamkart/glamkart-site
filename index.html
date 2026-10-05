@@ -79,6 +79,24 @@ footer a{color:var(--gold)}
 .wa-cta p{color:var(--muted);margin-bottom:20px}
 .wa-btn{display:inline-block;background:#25D366;color:#fff;font-weight:700;padding:13px 30px;border-radius:30px;transition:.2s}
 .wa-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,211,102,.35)}
+/* FAQ */
+.faq{max-width:800px;margin:44px auto 10px;padding:0 20px}
+.faq h2{font-size:1.5rem;text-align:center;margin-bottom:6px;background:linear-gradient(135deg,var(--gold-lt),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
+.faq .sub{color:var(--muted);text-align:center;margin-bottom:20px}
+.faq-item{background:var(--dark);border:1px solid #333;border-radius:12px;margin-bottom:12px;overflow:hidden}
+.faq-q{width:100%;background:none;border:none;color:var(--white);font-size:1rem;font-weight:600;padding:16px 20px;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.faq-q .arrow{color:var(--gold);transition:.2s}
+.faq-item.open .arrow{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 20px 16px;color:#ccc;font-size:.93rem}
+.faq-item.open .faq-a{display:block}
+/* Discount badges */
+.card{position:relative}
+.sale-badge{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#e63946,#c1121f);color:#fff;font-size:.75rem;font-weight:700;padding:5px 12px;border-radius:20px;z-index:2}
+.old-price{font-size:.85rem;color:var(--muted);text-decoration:line-through;margin-right:8px}
+/* Social */
+.socials{display:flex;gap:14px;justify-content:center;margin:15px 0}
+.socials a{width:42px;height:42px;border-radius:50%;background:var(--dark);border:1px solid #444;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:.2s}
+.socials a:hover{border-color:var(--gold);transform:translateY(-2px)}
 </style>
 <!-- Google Analytics: apni GA4 Measurement ID yahan lagao (G-XXXXXXXXXX ki jagah) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -130,6 +148,16 @@ footer a{color:var(--gold)}
   </div>
 </div>
 
+<div class="faq">
+  <h2>❓ Frequently Asked Questions</h2>
+  <p class="sub">Everything you need to know before you order</p>
+  <div class="faq-item"><button class="faq-q">How do I place an order? <span class="arrow">▼</span></button><div class="faq-a">Tap "Order Now" on any product — it takes you to WhatsApp with the product details already filled in. Just send the message and our team will confirm your order!</div></div>
+  <div class="faq-item"><button class="faq-q">Is Cash on Delivery available? <span class="arrow">▼</span></button><div class="faq-a">Yes! 💵 We offer Cash on Delivery across all of Pakistan. Pay when your order arrives at your doorstep.</div></div>
+  <div class="faq-item"><button class="faq-q">How long does delivery take? <span class="arrow">▼</span></button><div class="faq-a">🚚 Delivery usually takes 3–5 working days anywhere in Pakistan. You'll get a confirmation message once your order is dispatched.</div></div>
+  <div class="faq-item"><button class="faq-q">What are the delivery charges? <span class="arrow">▼</span></button><div class="faq-a">Delivery is Rs 200 nationwide — and it's <strong>FREE</strong> on all orders over Rs 3,000! 🎉</div></div>
+  <div class="faq-item"><button class="faq-q">What if I receive a damaged or wrong item? <span class="arrow">▼</span></button><div class="faq-a">No worries! Contact us on WhatsApp within 7 days of delivery with a photo, and we'll arrange a replacement or refund. See our <a href="shipping.html" style="color:var(--gold)">Shipping & Returns</a> page for details.</div></div>
+</div>
+
 <div class="wa-cta">
   <h2>📲 New Arrivals on WhatsApp</h2>
   <p>Join our WhatsApp list — be first to know about new products and special deals. No spam, ever.</p>
@@ -141,6 +169,11 @@ footer a{color:var(--gold)}
   <p>Beauty delivered to your doorstep. Cash on Delivery available across Pakistan.</p>
   <p><a class="flink" href="about.html">About Us</a><a class="flink" href="contact.html">Contact</a><a class="flink" href="shipping.html">Shipping & Returns</a><a class="flink" href="privacy.html">Privacy Policy</a><a class="flink" href="terms.html">Terms</a></p>
   <p>Follow us: <a href="https://www.facebook.com/profile.php?id=61594906269279" target="_blank" rel="noopener">Facebook Page</a></p>
+  <div class="socials">
+    <a href="https://www.facebook.com/profile.php?id=61594906269279" target="_blank" rel="noopener" aria-label="Facebook">📘</a>
+    <a href="https://www.tiktok.com" target="_blank" rel="noopener" aria-label="TikTok">🎵</a>
+    <a href="https://www.instagram.com" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
+  </div>
   <p style="font-size:.8rem">© 2026 GlamKart. All rights reserved.</p>
 </footer>
 
@@ -164,6 +197,15 @@ function fmtPrice(p){
   return 'Rs ' + n.toLocaleString('en-PK');
 }
 
+// Sale: every 4th product gets a 20% "was" price badge
+function saleInfo(idx, price){
+  if(idx % 4 !== 0) return '';
+  const n = parseFloat(price);
+  if(isNaN(n)) return '';
+  const was = Math.round(n * 1.25 / 10) * 10; // ~20% off, rounded
+  return {was: 'Rs ' + was.toLocaleString('en-PK'), off: Math.round((1 - n/was) * 100)};
+}
+
 function render(){
   const q = searchInput.value.toLowerCase().trim();
   const cat = catFilter.value;
@@ -173,21 +215,33 @@ function render(){
     return okQ && okC;
   });
   countEl.textContent = list.length + ' products';
-  grid.innerHTML = list.map(p=>`
+  grid.innerHTML = list.map((p,idx)=>{
+    const sale = saleInfo(PRODUCTS.indexOf(p), p.p);
+    return `
     <div class="card">
+      ${sale ? `<div class="sale-badge">-${sale.off}%</div>` : ''}
       <img src="${p.i}" alt="${p.t.replace(/"/g,'&quot;')}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22><rect fill=%22%23222%22 width=%22300%22 height=%22300%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23d4af37%22 font-size=%2240%22 text-anchor=%22middle%22>✨</text></svg>'">
       <div class="card-body">
         <div class="card-cat">${p.c}</div>
         <div class="card-title">${p.t}</div>
-        <div class="card-price">${fmtPrice(p.p)}</div>
+        <div class="card-price">${sale ? `<span class="old-price">${sale.was}</span>` : ''}${fmtPrice(p.p)}</div>
         <a class="btn" href="${SHOP}${p.h}" target="_blank" rel="noopener">Order Now 🛒</a>
       </div>
-    </div>`).join('');
+    </div>`;}).join('');
 }
 
 searchInput.addEventListener('input', render);
 catFilter.addEventListener('change', render);
 render();
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen) item.classList.add('open');
+  });
+});
 // Best sellers: first 8 products in horizontal row
 (function(){
   const bg = document.getElementById('bestGrid');
