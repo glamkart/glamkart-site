@@ -45,19 +45,27 @@
 }
 </script>
 <style>
-:root{--gold:#d4af37;--gold-lt:#f5d76e;--black:#0d0d0d;--dark:#1a1a1a;--gray:#2a2a2a;--white:#f8f8f8;--muted:#aaa}
+:root{--gold:#d4af37;--gold-lt:#f5d76e;--rose:#e91e63;--rose-dk:#c2185b;--rose-lt:#f8bbd0;--cream:#fff8f9;--pink-bg:#fce4ec;--black:#0d0d0d;--dark:#1a1a1a;--gray:#2a2a2a;--white:#f8f8f8;--muted:#888}
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--black);color:var(--white);line-height:1.6}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180deg,#fff8f9 0%,#fce4ec 100%);color:#333;line-height:1.6}
+.hero{background:linear-gradient(135deg,#e91e63 0%,#c2185b 50%,#880e4f 100%);color:#fff;text-align:center;padding:70px 20px;position:relative;overflow:hidden}
+.hero::before{content:'✨💄🌸💅✨';position:absolute;top:15px;left:0;right:0;font-size:1.5rem;opacity:.3;letter-spacing:20px}
+.hero h1{font-size:2.8rem;font-weight:800;margin-bottom:12px;text-shadow:0 2px 10px rgba(0,0,0,.2);font-family:Georgia,serif}
+.hero h1 .glam{background:linear-gradient(135deg,#fff,#f8bbd0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1.1rem;opacity:.95;max-width:600px;margin:0 auto 24px}
+.btn{background:linear-gradient(135deg,#e91e63,#c2185b);color:#fff;padding:13px 32px;border-radius:30px;text-decoration:none;font-weight:700;display:inline-block;transition:.2s;border:none;cursor:pointer;box-shadow:0 4px 15px rgba(233,30,99,.3)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(233,30,99,.4)}
+.badge{display:inline-block;background:#fff;color:#c2185b;border:1px solid #f8bbd0;padding:6px 16px;border-radius:20px;font-size:.82rem;margin:4px;font-weight:600}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:linear-gradient(180deg,#fff8f9 0%,#fce4ec 100%);color:#333;line-height:1.6}
 a{text-decoration:none;color:inherit}
 /* Header */
-header{position:sticky;top:0;z-index:100;background:rgba(13,13,13,.95);backdrop-filter:blur(10px);border-bottom:1px solid #333;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:1.6rem;font-weight:800;letter-spacing:2px;background:linear-gradient(135deg,var(--gold-lt),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.logo span{font-size:.8rem;display:block;letter-spacing:4px;color:var(--muted);-webkit-text-fill-color:var(--muted);font-weight:400}
+header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid #f8bbd0;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 10px rgba(233,30,99,.08)}
+.logo{font-size:1.6rem;font-weight:800;letter-spacing:2px;background:linear-gradient(135deg,#e91e63,#c2185b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:Georgia,serif}
+.logo span{font-size:.75rem;display:block;letter-spacing:4px;color:#e91e63;-webkit-text-fill-color:#e91e63;font-weight:400}
 .nav{display:flex;gap:20px;align-items:center}
-.nav a{color:var(--muted);font-size:.9rem;transition:.2s}
-.nav a:hover{color:var(--gold)}
-.btn{display:inline-block;background:linear-gradient(135deg,var(--gold-lt),var(--gold));color:#111;font-weight:700;padding:10px 24px;border-radius:30px;border:none;cursor:pointer;transition:.2s;font-size:.95rem}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(212,175,55,.35)}
+.nav a{color:#666;font-size:.9rem;transition:.2s;font-weight:500}
+.nav a:hover{color:#e91e63}
 /* Hero */
 .hero{text-align:center;padding:70px 20px 50px;background:radial-gradient(ellipse at center,#221a08 0%,var(--black) 70%)}
 .hero h1{font-size:2.6rem;margin-bottom:10px;background:linear-gradient(135deg,var(--gold-lt),var(--gold),#b8860b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800;letter-spacing:1px}
@@ -66,30 +74,30 @@ header{position:sticky;top:0;z-index:100;background:rgba(13,13,13,.95);backdrop-
 .badge{background:var(--dark);border:1px solid #444;padding:8px 18px;border-radius:20px;font-size:.85rem;color:var(--gold-lt)}
 /* Search & filter */
 .toolbar{max-width:1200px;margin:0 auto;padding:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center}
-#search{background:var(--dark);border:1px solid #444;color:var(--white);padding:12px 20px;border-radius:30px;width:300px;max-width:90%;font-size:1rem;outline:none}
-#search:focus{border-color:var(--gold)}
-#catFilter{background:var(--dark);border:1px solid #444;color:var(--white);padding:12px 18px;border-radius:30px;font-size:.95rem;outline:none;cursor:pointer}
-#count{color:var(--muted);font-size:.9rem;width:100%;text-align:center}
-/* Grid - Daraz style */
-.grid{max-width:1200px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
-.card{background:#fff;border-radius:8px;overflow:hidden;transition:.25s;display:flex;flex-direction:column;position:relative;color:#111}
-.card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.card img{width:100%;height:200px;object-fit:cover;background:#f5f5f5}
-.card-body{padding:10px 12px;display:flex;flex-direction:column;flex:1}
-.card-title{font-size:.85rem;color:#333;margin-bottom:6px;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4;min-height:2.4em}
-.card-price{font-size:1.15rem;font-weight:700;color:#f85606;margin-bottom:4px}
-.card-old{font-size:.78rem;color:#999;text-decoration:line-through;margin-bottom:4px}
-.card-meta{display:flex;align-items:center;gap:6px;font-size:.75rem;color:#999;margin-bottom:8px}
-.card-stars{color:#faca51;letter-spacing:1px}
-.card .btn{background:#f85606;text-align:center;font-size:.88rem;padding:9px;border-radius:6px;color:#fff;font-weight:600}
-.card .btn:hover{background:#d94805}
-.daraz-badge{position:absolute;top:8px;left:8px;background:#f85606;color:#fff;font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:4px;z-index:2}
-.daraz-ship{position:absolute;bottom:8px;left:8px;background:#25d366;color:#fff;font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:4px;z-index:2}
+#search{background:#fff;border:1px solid #f8bbd0;color:#333;padding:12px 20px;border-radius:30px;width:300px;max-width:90%;font-size:1rem;outline:none;box-shadow:0 2px 8px rgba(233,30,99,.06)}
+#search:focus{border-color:#e91e63}
+#catFilter{background:#fff;border:1px solid #f8bbd0;color:#333;padding:12px 18px;border-radius:30px;font-size:.95rem;outline:none;cursor:pointer}
+#count{color:#999;font-size:.9rem;width:100%;text-align:center}
+/* Grid - Pink Glam theme */
+.grid{max-width:1200px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}
+.card{background:#fff;border-radius:16px;overflow:hidden;transition:.25s;display:flex;flex-direction:column;position:relative;color:#333;box-shadow:0 4px 15px rgba(233,30,99,.08);border:1px solid #fce4ec}
+.card:hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(233,30,99,.18);border-color:#f8bbd0}
+.card img{width:100%;height:200px;object-fit:cover;background:#fce4ec}
+.card-body{padding:12px 14px;display:flex;flex-direction:column;flex:1}
+.card-title{font-size:.88rem;color:#444;margin-bottom:6px;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4;min-height:2.4em;font-weight:500}
+.card-price{font-size:1.2rem;font-weight:800;color:#e91e63;margin-bottom:4px}
+.card-old{font-size:.78rem;color:#bbb;text-decoration:line-through;margin-bottom:4px}
+.card-meta{display:flex;align-items:center;gap:6px;font-size:.75rem;color:#999;margin-bottom:10px}
+.card-stars{color:#ff9800;letter-spacing:1px}
+.card .btn{background:linear-gradient(135deg,#e91e63,#c2185b);text-align:center;font-size:.88rem;padding:10px;border-radius:10px;color:#fff;font-weight:700;box-shadow:0 3px 10px rgba(233,30,99,.25)}
+.card .btn:hover{background:linear-gradient(135deg,#c2185b,#880e4f);transform:translateY(-1px)}
+.daraz-badge{position:absolute;top:10px;left:10px;background:linear-gradient(135deg,#e91e63,#c2185b);color:#fff;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:20px;z-index:2;box-shadow:0 2px 8px rgba(233,30,99,.3)}
+.daraz-ship{position:absolute;bottom:10px;left:10px;background:#4caf50;color:#fff;font-size:.68rem;font-weight:600;padding:3px 10px;border-radius:20px;z-index:2}
 /* Footer */
-footer{background:#080808;border-top:1px solid #222;padding:40px 20px;text-align:center;color:var(--muted)}
-footer .flogo{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--gold-lt),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
-footer p{font-size:.9rem;max-width:500px;margin:0 auto 15px}
-footer a{color:var(--gold)}
+footer{background:linear-gradient(135deg,#880e4f,#4a0e2e);padding:45px 20px;text-align:center;color:#f8bbd0}
+footer .flogo{font-size:1.6rem;font-weight:800;background:linear-gradient(135deg,#fff,#f8bbd0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;font-family:Georgia,serif}
+footer p{font-size:.9rem;max-width:500px;margin:0 auto 15px;color:#f8bbd0}
+footer a{color:#fff;font-weight:600}
 /* WhatsApp float */
 .wa-float{position:fixed;bottom:24px;right:24px;width:58px;height:58px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;box-shadow:0 6px 20px rgba(37,211,102,.4);z-index:99;transition:.2s;animation:waPulse 2s infinite}
 .wa-float:hover{transform:scale(1.1)}
@@ -136,28 +144,28 @@ footer a{color:var(--gold)}
 .best-row .card{min-width:210px;max-width:210px;scroll-snap-align:start}
 /* Testimonials */
 .testi{max-width:1100px;margin:0 auto;padding:44px 20px 10px;text-align:center}
-.testi h2{font-size:1.5rem;margin-bottom:6px;background:linear-gradient(135deg,var(--gold-lt),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
-.testi .sub{color:var(--muted);margin-bottom:22px}
+.testi h2{font-size:1.6rem;margin-bottom:6px;background:linear-gradient(135deg,#e91e63,#c2185b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800;font-family:Georgia,serif}
+.testi .sub{color:#999;margin-bottom:22px}
 .t-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;text-align:left}
-.t-card{background:var(--dark);border:1px solid #333;border-radius:14px;padding:22px}
-.t-card .stars{color:var(--gold);letter-spacing:2px;margin-bottom:10px}
-.t-card p{color:#ddd;font-size:.94rem;margin-bottom:12px}
-.t-card .who{color:var(--gold-lt);font-size:.85rem;font-weight:600}
+.t-card{background:#fff;border:1px solid #fce4ec;border-radius:16px;padding:22px;box-shadow:0 4px 15px rgba(233,30,99,.06)}
+.t-card .stars{color:#ff9800;letter-spacing:2px;margin-bottom:10px}
+.t-card p{color:#555;font-size:.94rem;margin-bottom:12px}
+.t-card .who{color:#e91e63;font-size:.85rem;font-weight:600}
 /* WhatsApp updates CTA */
-.wa-cta{max-width:700px;margin:44px auto 10px;padding:36px 24px;text-align:center;background:radial-gradient(ellipse at center,#0f2a1a 0%,var(--dark) 75%);border:1px solid #1f4d2e;border-radius:18px}
-.wa-cta h2{font-size:1.4rem;margin-bottom:8px;color:#fff}
-.wa-cta p{color:var(--muted);margin-bottom:20px}
+.wa-cta{max-width:700px;margin:44px auto 10px;padding:36px 24px;text-align:center;background:linear-gradient(135deg,#fff,#fce4ec);border:1px solid #f8bbd0;border-radius:20px;box-shadow:0 8px 25px rgba(233,30,99,.08)}
+.wa-cta h2{font-size:1.4rem;margin-bottom:8px;color:#c2185b}
+.wa-cta p{color:#888;margin-bottom:20px}
 .wa-btn{display:inline-block;background:#25D366;color:#fff;font-weight:700;padding:13px 30px;border-radius:30px;transition:.2s}
 .wa-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,211,102,.35)}
 /* FAQ */
 .faq{max-width:800px;margin:44px auto 10px;padding:0 20px}
-.faq h2{font-size:1.5rem;text-align:center;margin-bottom:6px;background:linear-gradient(135deg,var(--gold-lt),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
-.faq .sub{color:var(--muted);text-align:center;margin-bottom:20px}
-.faq-item{background:var(--dark);border:1px solid #333;border-radius:12px;margin-bottom:12px;overflow:hidden}
-.faq-q{width:100%;background:none;border:none;color:var(--white);font-size:1rem;font-weight:600;padding:16px 20px;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-.faq-q .arrow{color:var(--gold);transition:.2s}
+.faq h2{font-size:1.6rem;text-align:center;margin-bottom:6px;background:linear-gradient(135deg,#e91e63,#c2185b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800;font-family:Georgia,serif}
+.faq .sub{color:#999;text-align:center;margin-bottom:20px}
+.faq-item{background:#fff;border:1px solid #fce4ec;border-radius:14px;margin-bottom:12px;overflow:hidden;box-shadow:0 2px 8px rgba(233,30,99,.05)}
+.faq-q{width:100%;background:none;border:none;color:#333;font-size:1rem;font-weight:600;padding:16px 20px;text-align:left;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.faq-q .arrow{color:#e91e63;transition:.2s}
 .faq-item.open .arrow{transform:rotate(180deg)}
-.faq-a{display:none;padding:0 20px 16px;color:#ccc;font-size:.93rem}
+.faq-a{display:none;padding:0 20px 16px;color:#666;font-size:.93rem}
 .faq-item.open .faq-a{display:block}
 /* Discount badges */
 .card{position:relative}
@@ -208,14 +216,14 @@ footer a{color:var(--gold)}
 <div class="toolbar">
     <input type="text" id="search" placeholder="🔍 Search products...">
     <select id="catFilter"><option value="">All Categories</option></select>
-    <select id="priceFilter" style="background:var(--dark);border:1px solid #444;color:var(--white);padding:12px 18px;border-radius:30px;font-size:.95rem;outline:none;cursor:pointer">
+    <select id="priceFilter" style="background:#fff;border:1px solid #f8bbd0;color:#333;padding:12px 18px;border-radius:30px;font-size:.95rem;outline:none;cursor:pointer">
       <option value="">Any Price</option>
       <option value="0-1000">Under Rs 1,000</option>
       <option value="1000-2000">Rs 1,000 - 2,000</option>
       <option value="2000-3000">Rs 2,000 - 3,000</option>
       <option value="3000-999999">Above Rs 3,000</option>
     </select>
-    <select id="colorFilter" style="background:var(--dark);border:1px solid #444;color:var(--white);padding:12px 18px;border-radius:30px;font-size:.95rem;outline:none;cursor:pointer">
+    <select id="colorFilter" style="background:#fff;border:1px solid #f8bbd0;color:#333;padding:12px 18px;border-radius:30px;font-size:.95rem;outline:none;cursor:pointer">
       <option value="">Any Color</option>
       <option value="black">⚫ Black</option>
       <option value="gold">🟡 Gold</option>
@@ -266,30 +274,30 @@ footer a{color:var(--gold)}
 
 <!-- Track Order + Loyalty + Referral -->
 <div class="perks" style="max-width:1100px;margin:30px auto 0;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
-  <div style="background:var(--dark);border:1px solid #333;border-radius:16px;padding:24px">
-    <h3 style="color:var(--gold-lt);margin-bottom:8px">📦 Track Your Order</h3>
-    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Enter your phone number to check order status</p>
-    <input id="trackPhone" type="tel" placeholder="03XX XXXXXXX" style="width:100%;background:#111;border:1px solid #444;color:#fff;padding:11px 16px;border-radius:10px;margin-bottom:10px;font-size:.95rem;outline:none">
+  <div style="background:#fff;border:1px solid #fce4ec;border-radius:18px;padding:24px;box-shadow:0 4px 15px rgba(233,30,99,.06)">
+    <h3 style="color:#c2185b;margin-bottom:8px">📦 Track Your Order</h3>
+    <p style="color:#999;font-size:.88rem;margin-bottom:12px">Enter your phone number to check order status</p>
+    <input id="trackPhone" type="tel" placeholder="03XX XXXXXXX" style="width:100%;background:#fff8f9;border:1px solid #f8bbd0;color:#333;padding:11px 16px;border-radius:10px;margin-bottom:10px;font-size:.95rem;outline:none">
     <button class="btn" onclick="trackOrder()" style="width:100%">Track Order 🔍</button>
   </div>
-  <div style="background:var(--dark);border:1px solid #333;border-radius:16px;padding:24px">
-    <h3 style="color:var(--gold-lt);margin-bottom:8px">🏆 Loyalty Points</h3>
-    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Earn 10 points per Rs 1,000 spent!</p>
-    <p style="font-size:1.6rem;font-weight:800;color:var(--gold-lt)"><span id="loyalPts">0</span> <span style="font-size:.9rem;color:var(--muted)">points</span></p>
-    <p style="color:var(--muted);font-size:.8rem;margin-top:8px">100 points = Rs 100 OFF your next order!</p>
+  <div style="background:#fff;border:1px solid #fce4ec;border-radius:18px;padding:24px;box-shadow:0 4px 15px rgba(233,30,99,.06)">
+    <h3 style="color:#c2185b;margin-bottom:8px">🏆 Loyalty Points</h3>
+    <p style="color:#999;font-size:.88rem;margin-bottom:12px">Earn 10 points per Rs 1,000 spent!</p>
+    <p style="font-size:1.6rem;font-weight:800;color:#e91e63"><span id="loyalPts">0</span> <span style="font-size:.9rem;color:#999">points</span></p>
+    <p style="color:#999;font-size:.8rem;margin-top:8px">100 points = Rs 100 OFF your next order!</p>
   </div>
-  <div style="background:var(--dark);border:1px solid #333;border-radius:16px;padding:24px">
-    <h3 style="color:var(--gold-lt);margin-bottom:8px">🎉 Refer & Earn</h3>
-    <p style="color:var(--muted);font-size:.88rem;margin-bottom:12px">Dost ko lao, <b style="color:#fff">Rs 200 OFF</b> pao!</p>
+  <div style="background:#fff;border:1px solid #fce4ec;border-radius:18px;padding:24px;box-shadow:0 4px 15px rgba(233,30,99,.06)">
+    <h3 style="color:#c2185b;margin-bottom:8px">🎉 Refer & Earn</h3>
+    <p style="color:#999;font-size:.88rem;margin-bottom:12px">Dost ko lao, <b style="color:#e91e63">Rs 200 OFF</b> pao!</p>
     <button class="btn" onclick="shareReferral()" style="width:100%">Share Referral Link 📲</button>
-    <p style="color:var(--muted);font-size:.8rem;margin-top:10px;text-align:center">Your code: <b id="refCode" style="color:var(--gold-lt)">GLAM-XXXX</b></p>
+    <p style="color:#999;font-size:.8rem;margin-top:10px;text-align:center">Your code: <b id="refCode" style="color:#e91e63">GLAM-XXXX</b></p>
   </div>
 </div>
 
 <!-- Size Guide Modal -->
 <div id="sizeModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:200;align-items:center;justify-content:center" onclick="if(event.target==this)this.style.display='none'">
-  <div style="background:var(--dark);border:1px solid var(--gold);border-radius:16px;padding:28px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto">
-    <h3 style="color:var(--gold-lt);margin-bottom:14px">📏 Size Guide</h3>
+  <div style="background:#fff;border:1px solid #f8bbd0;border-radius:18px;padding:28px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;box-shadow:0 10px 40px rgba(233,30,99,.15)">
+    <h3 style="color:#c2185b;margin-bottom:14px">📏 Size Guide</h3>
     <h4 style="color:#fff;margin:12px 0 8px">👟 Women's Shoes (PK)</h4>
     <table style="width:100%;color:#ccc;font-size:.88rem;border-collapse:collapse">
       <tr style="border-bottom:1px solid #444"><td style="padding:8px">36</td><td>22.5 cm</td></tr>
@@ -352,8 +360,8 @@ footer a{color:var(--gold)}
 
 <!-- AI Chatbot -->
 <div id="chatBtn" onclick="toggleChat()" style="position:fixed;bottom:96px;right:24px;width:52px;height:52px;background:linear-gradient(135deg,var(--gold-lt),var(--gold));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;cursor:pointer;z-index:99;box-shadow:0 6px 20px rgba(212,175,55,.4)">🤖</div>
-<div id="chatBox" style="display:none;position:fixed;bottom:158px;right:24px;width:320px;max-width:90vw;height:420px;background:var(--dark);border:1px solid var(--gold);border-radius:16px;z-index:100;flex-direction:column;overflow:hidden">
-  <div style="background:linear-gradient(135deg,var(--gold-lt),var(--gold));color:#111;padding:12px 16px;font-weight:700">🤖 GlamKart Assistant <span onclick="toggleChat()" style="float:right;cursor:pointer">✕</span></div>
+<div id="chatBox" style="display:none;position:fixed;bottom:158px;right:24px;width:320px;max-width:90vw;height:420px;background:#fff;border:1px solid #f8bbd0;border-radius:18px;z-index:100;flex-direction:column;overflow:hidden;box-shadow:0 10px 40px rgba(233,30,99,.2)">
+  <div style="background:linear-gradient(135deg,#e91e63,#c2185b);color:#fff;padding:12px 16px;font-weight:700">🤖 GlamKart Assistant <span onclick="toggleChat()" style="float:right;cursor:pointer">✕</span></div>
   <div id="chatMsgs" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px"></div>
   <div style="padding:10px;display:flex;gap:8px;border-top:1px solid #333">
     <input id="chatInput" type="text" placeholder="Sawal likhein..." style="flex:1;background:#111;border:1px solid #444;color:#fff;padding:10px 14px;border-radius:20px;outline:none;font-size:.9rem" onkeypress="if(event.key=='Enter')sendChat()">
