@@ -9,6 +9,9 @@
 <meta property="og:description" content="Premium cosmetics, skincare, perfumes, jewelry, handbags & watches — Cash on Delivery across Pakistan!">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#d4af37">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link rel="canonical" href="https://glamkart.github.io/glamkart-site/">
 <meta name="keywords" content="online shopping Pakistan, cosmetics Pakistan, beauty products COD, perfumes Pakistan, jewelry online Pakistan, handbags Pakistan, skincare Pakistan, GlamKart">
 <meta name="robots" content="index, follow">
@@ -147,6 +150,7 @@ footer a{color:var(--gold)}
   <nav class="nav">
     <a href="#products">Products</a>
     <a href="blog/index.html">Blog</a>
+    <a href="#" onclick="toggleUrdu();return false" id="urduBtn">اردو</a>
     <a href="https://www.facebook.com/profile.php?id=61594906269279" target="_blank" rel="noopener">Facebook</a>
   </nav>
 </header>
@@ -171,6 +175,24 @@ footer a{color:var(--gold)}
 <div class="toolbar">
     <input type="text" id="search" placeholder="🔍 Search products...">
     <select id="catFilter"><option value="">All Categories</option></select>
+    <select id="priceFilter" style="background:var(--dark);border:1px solid #444;color:var(--white);padding:12px 18px;border-radius:30px;font-size:.95rem;outline:none;cursor:pointer">
+      <option value="">Any Price</option>
+      <option value="0-1000">Under Rs 1,000</option>
+      <option value="1000-2000">Rs 1,000 - 2,000</option>
+      <option value="2000-3000">Rs 2,000 - 3,000</option>
+      <option value="3000-999999">Above Rs 3,000</option>
+    </select>
+    <select id="colorFilter" style="background:var(--dark);border:1px solid #444;color:var(--white);padding:12px 18px;border-radius:30px;font-size:.95rem;outline:none;cursor:pointer">
+      <option value="">Any Color</option>
+      <option value="black">⚫ Black</option>
+      <option value="gold">🟡 Gold</option>
+      <option value="silver">⚪ Silver</option>
+      <option value="red">🔴 Red</option>
+      <option value="pink">🩷 Pink</option>
+      <option value="white">⬜ White</option>
+      <option value="blue">🔵 Blue</option>
+    </select>
+    <button class="btn" onclick="openSizeGuide()" style="padding:12px 20px;font-size:.9rem">📏 Size Guide</button>
     <div id="count"></div>
   </div>
   <div class="grid" id="grid"></div>
@@ -231,6 +253,45 @@ footer a{color:var(--gold)}
   </div>
 </div>
 
+<!-- Size Guide Modal -->
+<div id="sizeModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:200;align-items:center;justify-content:center" onclick="if(event.target==this)this.style.display='none'">
+  <div style="background:var(--dark);border:1px solid var(--gold);border-radius:16px;padding:28px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto">
+    <h3 style="color:var(--gold-lt);margin-bottom:14px">📏 Size Guide</h3>
+    <h4 style="color:#fff;margin:12px 0 8px">👟 Women's Shoes (PK)</h4>
+    <table style="width:100%;color:#ccc;font-size:.88rem;border-collapse:collapse">
+      <tr style="border-bottom:1px solid #444"><td style="padding:8px">36</td><td>22.5 cm</td></tr>
+      <tr style="border-bottom:1px solid #444"><td style="padding:8px">37</td><td>23 cm</td></tr>
+      <tr style="border-bottom:1px solid #444"><td style="padding:8px">38</td><td>23.5 cm</td></tr>
+      <tr style="border-bottom:1px solid #444"><td style="padding:8px">39</td><td>24 cm</td></tr>
+      <tr style="border-bottom:1px solid #444"><td style="padding:8px">40</td><td>25 cm</td></tr>
+      <tr><td style="padding:8px">41</td><td>25.5 cm</td></tr>
+    </table>
+    <h4 style="color:#fff;margin:16px 0 8px">💍 Ring Sizes</h4>
+    <table style="width:100%;color:#ccc;font-size:.88rem;border-collapse:collapse">
+      <tr style="border-bottom:1px solid #444"><td style="padding:8px">Small (14-16)</td><td>54-56 mm</td></tr>
+      <tr style="border-bottom:1px solid #444"><td style="padding:8px">Medium (17-18)</td><td>57-58 mm</td></tr>
+      <tr><td style="padding:8px">Large (19-20)</td><td>59-60 mm</td></tr>
+    </table>
+    <button class="btn" onclick="document.getElementById('sizeModal').style.display='none'" style="width:100%;margin-top:16px">Close</button>
+  </div>
+</div>
+
+<!-- Trending Now -->
+<div class="best" id="trendingSection" style="display:none">
+  <h2>📊 Trending Now</h2>
+  <p class="sub">Most viewed products this week</p>
+  <div class="best-row" id="trendGrid"></div>
+</div>
+
+<!-- Customer Photos -->
+<div class="testi">
+  <h2>📸 Customer Photos</h2>
+  <p class="sub">Real photos from our happy customers — send yours on WhatsApp to get featured!</p>
+  <div style="text-align:center;margin-top:16px">
+    <a class="btn" href="https://wa.me/923277518208?text=Hi%20GlamKart!%20Here%20is%20my%20photo%20with%20your%20product!%20📸" target="_blank" rel="noopener">Send Your Photo 📸</a>
+  </div>
+</div>
+
 <div class="faq">
   <h2>❓ Frequently Asked Questions</h2>  <p class="sub">Everything you need to know before you order</p>
   <div class="faq-item"><button class="faq-q">How do I place an order? <span class="arrow">▼</span></button><div class="faq-a">Tap "Order Now" on any product — it takes you to WhatsApp with the product details already filled in. Just send the message and our team will confirm your order!</div></div>
@@ -251,6 +312,12 @@ footer a{color:var(--gold)}
   <p>Beauty delivered to your doorstep. Cash on Delivery available across Pakistan.</p>
   <p><a class="flink" href="about.html">About Us</a><a class="flink" href="contact.html">Contact</a><a class="flink" href="shipping.html">Shipping & Returns</a><a class="flink" href="privacy.html">Privacy Policy</a><a class="flink" href="terms.html">Terms</a></p>
   <p>Follow us: <a href="https://www.facebook.com/profile.php?id=61594906269279" target="_blank" rel="noopener">Facebook Page</a></p>
+  <div style="margin:15px 0;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+    <span class="badge">💵 Cash on Delivery</span>
+    <span class="badge">🏦 Bank Transfer</span>
+    <span class="badge">📱 EasyPaisa</span>
+    <span class="badge">📱 JazzCash</span>
+  </div>
   <div class="socials">
     <a href="https://www.facebook.com/profile.php?id=61594906269279" target="_blank" rel="noopener" aria-label="Facebook">📘</a>
     <a href="https://www.tiktok.com" target="_blank" rel="noopener" aria-label="TikTok">🎵</a>
@@ -258,6 +325,17 @@ footer a{color:var(--gold)}
   </div>
   <p style="font-size:.8rem">© 2026 GlamKart. All rights reserved.</p>
 </footer>
+
+<!-- AI Chatbot -->
+<div id="chatBtn" onclick="toggleChat()" style="position:fixed;bottom:96px;right:24px;width:52px;height:52px;background:linear-gradient(135deg,var(--gold-lt),var(--gold));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;cursor:pointer;z-index:99;box-shadow:0 6px 20px rgba(212,175,55,.4)">🤖</div>
+<div id="chatBox" style="display:none;position:fixed;bottom:158px;right:24px;width:320px;max-width:90vw;height:420px;background:var(--dark);border:1px solid var(--gold);border-radius:16px;z-index:100;flex-direction:column;overflow:hidden">
+  <div style="background:linear-gradient(135deg,var(--gold-lt),var(--gold));color:#111;padding:12px 16px;font-weight:700">🤖 GlamKart Assistant <span onclick="toggleChat()" style="float:right;cursor:pointer">✕</span></div>
+  <div id="chatMsgs" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px"></div>
+  <div style="padding:10px;display:flex;gap:8px;border-top:1px solid #333">
+    <input id="chatInput" type="text" placeholder="Sawal likhein..." style="flex:1;background:#111;border:1px solid #444;color:#fff;padding:10px 14px;border-radius:20px;outline:none;font-size:.9rem" onkeypress="if(event.key=='Enter')sendChat()">
+    <button onclick="sendChat()" style="background:var(--gold);border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:1.1rem">➤</button>
+  </div>
+</div>
 
 <div class="wa-label">💬 Chat with us — Live!</div>
 <a class="wa-float" href="https://wa.me/923277518208?text=Hi%20GlamKart!%20I%20want%20to%20order." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">💬</a>
@@ -292,10 +370,22 @@ function saleInfo(idx, price){
 function render(){
   const q = searchInput.value.toLowerCase().trim();
   const cat = catFilter.value;
+  const priceR = document.getElementById('priceFilter').value;
+  const colorF = document.getElementById('colorFilter').value;
   const list = PRODUCTS.filter(p=>{
     const okQ = !q || p.t.toLowerCase().includes(q);
     const okC = !cat || p.c===cat;
-    return okQ && okC;
+    let okP = true;
+    if(priceR){
+      const [lo,hi] = priceR.split('-').map(Number);
+      const pr = parseFloat(p.p);
+      okP = pr >= lo && pr <= hi;
+    }
+    let okCol = true;
+    if(colorF){
+      okCol = p.t.toLowerCase().includes(colorF);
+    }
+    return okQ && okC && okP && okCol;
   });
   countEl.textContent = list.length + ' products';
   grid.innerHTML = list.map((p,idx)=>{
@@ -303,7 +393,7 @@ function render(){
     return `
     <div class="card">
       ${sale ? `<div class="sale-badge">-${sale.off}%</div>` : ''}
-      <img src="${p.i}" alt="${p.t.replace(/"/g,'&quot;')}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22><rect fill=%22%23222%22 width=%22300%22 height=%22300%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23d4af37%22 font-size=%2240%22 text-anchor=%22middle%22>✨</text></svg>'">
+      <img src="${p.i}" alt="${p.t.replace(/"/g,'&quot;')}" loading="lazy" onclick="trackView(${PRODUCTS.indexOf(p)})" style="cursor:pointer" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22><rect fill=%22%23222%22 width=%22300%22 height=%22300%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23d4af37%22 font-size=%2240%22 text-anchor=%22middle%22>✨</text></svg>'">
       <div class="card-body">
         <div class="card-cat">${p.c}</div>
         <div class="card-title">${p.t}</div>
@@ -313,9 +403,123 @@ function render(){
     </div>`;}).join('');
 }
 
+function openSizeGuide(){
+  document.getElementById('sizeModal').style.display = 'flex';
+}
+
+// Trending: track product views
+function trackView(idx){
+  try{
+    let views = JSON.parse(localStorage.getItem('glamkart_views') || '{}');
+    views[idx] = (views[idx] || 0) + 1;
+    localStorage.setItem('glamkart_views', JSON.stringify(views));
+  }catch(e){}
+}
+(function(){
+  try{
+    const views = JSON.parse(localStorage.getItem('glamkart_views') || '{}');
+    const sorted = Object.entries(views).sort((a,b)=>b[1]-a[1]).slice(0,8);
+    if(sorted.length >= 3){
+      document.getElementById('trendingSection').style.display = 'block';
+      document.getElementById('trendGrid').innerHTML = sorted.map(([idx])=>{
+        const p = PRODUCTS[parseInt(idx)];
+        if(!p) return '';
+        return `<div class="card">
+          <img src="${p.i}" alt="${p.t.replace(/"/g,'&quot;')}" loading="lazy">
+          <div class="card-body">
+            <div class="card-title">${p.t}</div>
+            <div class="card-price">${fmtPrice(p.p)}</div>
+            <a class="btn" href="${SHOP}${p.h}" target="_blank" rel="noopener">Order Now 🛒</a>
+          </div>
+        </div>`;
+      }).join('');
+    }
+  }catch(e){}
+})();
+
 searchInput.addEventListener('input', render);
 catFilter.addEventListener('change', render);
+document.getElementById('priceFilter').addEventListener('change', render);
+document.getElementById('colorFilter').addEventListener('change', render);
 render();
+// Urdu toggle (translates key UI phrases)
+let urduOn = false;
+const URDU = {
+  'Shop Now 🛍️': 'ابھی خریدیں 🛍️',
+  'Search products...': 'پروڈکٹ تلاش کریں...',
+  'All Categories': 'تمام کیٹیگریز',
+  'Any Price': 'کوئی بھی قیمت',
+  'Any Color': 'کوئی بھی رنگ',
+  'Order Now 🛒': 'ابھی آرڈر کریں 🛒',
+  'Cash on Delivery': 'کیش آن ڈیلیوری',
+  'Delivery Across Pakistan': 'پورے پاکستان میں ڈیلیوری',
+  'Frequently Asked Questions': 'اکثر پوچھے جانے والے سوالات'
+};
+function toggleUrdu(){
+  urduOn = !urduOn;
+  document.getElementById('urduBtn').textContent = urduOn ? 'English' : 'اردو';
+  document.querySelectorAll('.btn, .badge, #search, h2').forEach(el=>{
+    if(urduOn){
+      if(!el.dataset.en) el.dataset.en = el.textContent || el.placeholder || '';
+      const key = (el.dataset.en || '').trim();
+      if(URDU[key]){ if(el.placeholder) el.placeholder = URDU[key]; else el.textContent = URDU[key]; }
+    } else {
+      if(el.dataset.en){ if(el.placeholder) el.placeholder = el.dataset.en; else el.textContent = el.dataset.en; }
+    }
+  });
+  try{ localStorage.setItem('glamkart_urdu', urduOn ? '1' : '0'); }catch(e){}
+}
+(function(){
+  try{ if(localStorage.getItem('glamkart_urdu')==='1') toggleUrdu(); }catch(e){}
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+})();
+// AI Chatbot (rule-based)
+function toggleChat(){
+  const box = document.getElementById('chatBox');
+  const isOpen = box.style.display === 'flex';
+  box.style.display = isOpen ? 'none' : 'flex';
+  if(!isOpen && !box.dataset.init){
+    box.dataset.init = '1';
+    botSay('Assalam-o-Alaikum! 👋 Me GlamKart Assistant hun. Delivery, price, ya order ke bare me puchiye!');
+  }
+}
+function botSay(text){
+  const msgs = document.getElementById('chatMsgs');
+  const div = document.createElement('div');
+  div.style.cssText = 'background:#2a2a2a;padding:10px 14px;border-radius:14px 14px 14px 4px;max-width:85%;font-size:.9rem;color:#eee;align-self:flex-start';
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function sendChat(){
+  const input = document.getElementById('chatInput');
+  const q = input.value.trim().toLowerCase();
+  if(!q) return;
+  const msgs = document.getElementById('chatMsgs');
+  const uDiv = document.createElement('div');
+  uDiv.style.cssText = 'background:var(--gold);color:#111;padding:10px 14px;border-radius:14px 14px 4px 14px;max-width:85%;font-size:.9rem;align-self:flex-end';
+  uDiv.textContent = input.value.trim();
+  msgs.appendChild(uDiv);
+  input.value = '';
+  setTimeout(()=>{
+    let ans = "Maaf kijiye, samajh nahi aya! 😅 WhatsApp pe rabta karein: 0327 7518208";
+    if(q.includes('delivery') || q.includes('shipping') || q.includes('parcel') || q.includes('kitne din'))
+      ans = "🚚 Delivery 3-5 working days me ho jati hai! Rs 200 charges, Rs 3,000+ pe FREE!";
+    else if(q.includes('cod') || q.includes('cash') || q.includes('payment') || q.includes('pese'))
+      ans = "💵 Cash on Delivery available hai! Parcel milne pe pese dein. Bank transfer, EasyPaisa, JazzCash bhi accepted!";
+    else if(q.includes('return') || q.includes('wapsi') || q.includes('exchange') || q.includes('damage'))
+      ans = "↩️ 7 din me damaged/wrong item ki photo WhatsApp pe bhejen — replacement ya refund milega!";
+    else if(q.includes('order') || q.includes('buy') || q.includes('kharid'))
+      ans = "🛒 Order karne ke liye kisi product pe 'Order Now' dabayein — WhatsApp khul jayega!";
+    else if(q.includes('price') || q.includes('rate') || q.includes('kimat') || q.includes('discount') || q.includes('offer'))
+      ans = "🏷️ Har product ki price uske card pe likhi hai! Flash sale me code FLASH10 se 10% extra OFF!";
+    else if(q.includes('salam') || q.includes('hello') || q.includes('hi') || q.includes('aoa'))
+      ans = "Walaikum Assalam! 😊 Kya madad kar sakta hun?";
+    else if(q.includes('location') || q.includes('address') || q.includes('kahan') || q.includes('city'))
+      ans = "📍 Hum Taunsa Sharif se pure Pakistan me deliver karte hain — Karachi se Peshawar tak!";
+    botSay(ans);
+  }, 600);
+}
 // Flash sale countdown (resets daily at midnight)
 (function(){
   function tick(){
