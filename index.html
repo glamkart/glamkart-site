@@ -70,16 +70,21 @@ header{position:sticky;top:0;z-index:100;background:rgba(13,13,13,.95);backdrop-
 #search:focus{border-color:var(--gold)}
 #catFilter{background:var(--dark);border:1px solid #444;color:var(--white);padding:12px 18px;border-radius:30px;font-size:.95rem;outline:none;cursor:pointer}
 #count{color:var(--muted);font-size:.9rem;width:100%;text-align:center}
-/* Grid */
-.grid{max-width:1200px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
-.card{background:var(--dark);border-radius:14px;overflow:hidden;border:1px solid #2c2c2c;transition:.25s;display:flex;flex-direction:column}
-.card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 12px 30px rgba(212,175,55,.15)}
-.card img{width:100%;height:230px;object-fit:cover;background:#222}
-.card-body{padding:16px;display:flex;flex-direction:column;flex:1}
-.card-cat{font-size:.72rem;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.card-title{font-size:.95rem;font-weight:600;margin-bottom:8px;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card-price{font-size:1.25rem;font-weight:800;color:var(--gold-lt);margin-bottom:12px}
-.card .btn{text-align:center;font-size:.9rem;padding:10px}
+/* Grid - Daraz style */
+.grid{max-width:1200px;margin:0 auto;padding:10px 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.card{background:#fff;border-radius:8px;overflow:hidden;transition:.25s;display:flex;flex-direction:column;position:relative;color:#111}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.card img{width:100%;height:200px;object-fit:cover;background:#f5f5f5}
+.card-body{padding:10px 12px;display:flex;flex-direction:column;flex:1}
+.card-title{font-size:.85rem;color:#333;margin-bottom:6px;flex:1;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.4;min-height:2.4em}
+.card-price{font-size:1.15rem;font-weight:700;color:#f85606;margin-bottom:4px}
+.card-old{font-size:.78rem;color:#999;text-decoration:line-through;margin-bottom:4px}
+.card-meta{display:flex;align-items:center;gap:6px;font-size:.75rem;color:#999;margin-bottom:8px}
+.card-stars{color:#faca51;letter-spacing:1px}
+.card .btn{background:#f85606;text-align:center;font-size:.88rem;padding:9px;border-radius:6px;color:#fff;font-weight:600}
+.card .btn:hover{background:#d94805}
+.daraz-badge{position:absolute;top:8px;left:8px;background:#f85606;color:#fff;font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:4px;z-index:2}
+.daraz-ship{position:absolute;bottom:8px;left:8px;background:#25d366;color:#fff;font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:4px;z-index:2}
 /* Footer */
 footer{background:#080808;border-top:1px solid #222;padding:40px 20px;text-align:center;color:var(--muted)}
 footer .flogo{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--gold-lt),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
@@ -417,16 +422,23 @@ function render(){
   });
   countEl.textContent = list.length + ' products';
   grid.innerHTML = list.map((p,idx)=>{
-    const sale = saleInfo(PRODUCTS.indexOf(p), p.p);
+    const pIdx = PRODUCTS.indexOf(p);
+    const sale = saleInfo(pIdx, p.p);
+    // Daraz-style: pseudo rating & sold count (deterministic per product)
+    const rating = (4 + (pIdx % 10) / 10).toFixed(1);
+    const sold = 50 + (pIdx * 37) % 900;
+    const stars = '★'.repeat(Math.round(parseFloat(rating)));
     return `
     <div class="card">
-      ${sale ? `<div class="sale-badge">-${sale.off}%</div>` : ''}
-      <img src="${p.i}" alt="${p.t.replace(/"/g,'&quot;')}" loading="lazy" onclick="trackView(${PRODUCTS.indexOf(p)})" style="cursor:pointer" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22><rect fill=%22%23222%22 width=%22300%22 height=%22300%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23d4af37%22 font-size=%2240%22 text-anchor=%22middle%22>✨</text></svg>'">
+      ${sale ? `<div class="daraz-badge">-${sale.off}%</div>` : ''}
+      <img src="${p.i}" alt="${p.t.replace(/"/g,'&quot;')}" loading="lazy" onclick="trackView(${pIdx})" style="cursor:pointer" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22><rect fill=%22%23f5f5f5%22 width=%22300%22 height=%22300%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23f85606%22 font-size=%2240%22 text-anchor=%22middle%22>✨</text></svg>'">
+      <div class="daraz-ship">🚚 Free Delivery</div>
       <div class="card-body">
-        <div class="card-cat">${p.c}</div>
         <div class="card-title">${p.t}</div>
-        <div class="card-price">${sale ? `<span class="old-price">${sale.was}</span>` : ''}${fmtPrice(p.p)}</div>
-        <a class="btn" href="${SHOP}${p.h}" target="_blank" rel="noopener">Order Now 🛒</a>
+        <div class="card-price">Rs. ${parseFloat(p.p).toLocaleString()}</div>
+        ${sale ? `<div class="card-old">Rs. ${sale.was.replace('Rs ','')}</div>` : ''}
+        <div class="card-meta"><span class="card-stars">${stars}</span> ${rating} | ${sold} sold</div>
+        <a class="btn" href="${SHOP}${p.h}" target="_blank" rel="noopener">Buy Now</a>
       </div>
     </div>`;}).join('');
 }
@@ -453,11 +465,11 @@ function trackView(idx){
         const p = PRODUCTS[parseInt(idx)];
         if(!p) return '';
         return `<div class="card">
-          <img src="${p.i}" alt="${p.t.replace(/"/g,'&quot;')}" loading="lazy">
+          <img src="${p.i}" alt="${p.t.replace(/"/g,'&quot;')}" loading="lazy" style="height:170px">
           <div class="card-body">
             <div class="card-title">${p.t}</div>
-            <div class="card-price">${fmtPrice(p.p)}</div>
-            <a class="btn" href="${SHOP}${p.h}" target="_blank" rel="noopener">Order Now 🛒</a>
+            <div class="card-price">Rs. ${parseFloat(p.p).toLocaleString()}</div>
+            <a class="btn" href="${SHOP}${p.h}" target="_blank" rel="noopener">Buy Now</a>
           </div>
         </div>`;
       }).join('');
