@@ -178,6 +178,22 @@ footer a{color:var(--gold)}
     <div class="t-card"><div class="stars">★★★★★</div><p>"Original products at such good prices. The WhatsApp support helped me pick the right shade. Highly recommended!"</p><div class="who">— Fatima R., Karachi</div></div>
     <div class="t-card"><div class="stars">★★★★★</div><p>"My third order this month! Fast delivery to Islamabad and everything exactly as shown in pictures."</p><div class="who">— Mahnoor S., Islamabad</div></div>
   </div>
+  <div class="review-form" style="max-width:600px;margin:30px auto 0;padding:28px 24px;background:var(--dark);border:1px solid #333;border-radius:16px;text-align:left">
+    <h3 style="font-size:1.15rem;margin-bottom:6px;color:var(--gold-lt)">✍️ Apna Review Likhein</h3>
+    <p style="color:var(--muted);font-size:.9rem;margin-bottom:18px">Bought from GlamKart? Share your experience!</p>
+    <label style="display:block;color:#ccc;font-size:.9rem;margin-bottom:6px">Your Name</label>
+    <input id="rvName" type="text" placeholder="e.g. Sana A." style="width:100%;background:#111;border:1px solid #444;color:#fff;padding:11px 16px;border-radius:10px;margin-bottom:14px;font-size:.95rem;outline:none">
+    <label style="display:block;color:#ccc;font-size:.9rem;margin-bottom:6px">Your City</label>
+    <input id="rvCity" type="text" placeholder="e.g. Lahore" style="width:100%;background:#111;border:1px solid #444;color:#fff;padding:11px 16px;border-radius:10px;margin-bottom:14px;font-size:.95rem;outline:none">
+    <label style="display:block;color:#ccc;font-size:.9rem;margin-bottom:6px">Rating</label>
+    <div id="rvStars" style="font-size:1.8rem;margin-bottom:14px;cursor:pointer;user-select:none">
+      <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+    </div>
+    <label style="display:block;color:#ccc;font-size:.9rem;margin-bottom:6px">Your Review</label>
+    <textarea id="rvText" rows="3" placeholder="How was your experience with GlamKart?" style="width:100%;background:#111;border:1px solid #444;color:#fff;padding:11px 16px;border-radius:10px;margin-bottom:16px;font-size:.95rem;outline:none;resize:vertical"></textarea>
+    <button class="btn" onclick="submitReview()" style="width:100%">Submit Review ⭐</button>
+    <p style="color:var(--muted);font-size:.8rem;margin-top:10px;text-align:center">Your review will be sent via WhatsApp and published after verification.</p>
+  </div>
 </div>
 
 <!-- SEO content section -->
@@ -271,6 +287,29 @@ function render(){
 searchInput.addEventListener('input', render);
 catFilter.addEventListener('change', render);
 render();
+// Review form: star rating + WhatsApp submit
+let rvRating = 5;
+(function(){
+  const stars = document.querySelectorAll('#rvStars span');
+  function paint(n){
+    stars.forEach((s,i)=>{ s.style.color = i < n ? 'var(--gold)' : '#555'; });
+  }
+  stars.forEach(s=>{
+    s.addEventListener('click',()=>{ rvRating = parseInt(s.dataset.v); paint(rvRating); });
+    s.addEventListener('mouseover',()=>paint(parseInt(s.dataset.v)));
+  });
+  document.getElementById('rvStars').addEventListener('mouseleave',()=>paint(rvRating));
+  paint(rvRating);
+})();
+function submitReview(){
+  const name = document.getElementById('rvName').value.trim();
+  const city = document.getElementById('rvCity').value.trim();
+  const text = document.getElementById('rvText').value.trim();
+  if(!name || !text){ alert('Please apna naam aur review likhein!'); return; }
+  const stars = '★'.repeat(rvRating) + '☆'.repeat(5 - rvRating);
+  const msg = `⭐ NEW REVIEW for GlamKart\n\nName: ${name}\nCity: ${city || '-'}\nRating: ${stars} (${rvRating}/5)\nReview: ${text}`;
+  window.open('https://wa.me/923277518208?text=' + encodeURIComponent(msg), '_blank');
+}
 // FAQ accordion
 document.querySelectorAll('.faq-q').forEach(btn=>{
   btn.addEventListener('click',()=>{
