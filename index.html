@@ -432,10 +432,10 @@ function render(){
     return `
     <div class="card">
       ${sale ? `<div class="daraz-badge">-${sale.off}%</div>` : ''}
-      <img src="${p.i}" alt="${p.t.replace(/"/g,'&quot;')}" loading="lazy" onclick="trackView(${pIdx})" style="cursor:pointer" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22><rect fill=%22%23f5f5f5%22 width=%22300%22 height=%22300%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23f85606%22 font-size=%2240%22 text-anchor=%22middle%22>✨</text></svg>'">
+      <img src="${p.i}" alt="${p.t.replace(/"/g,'&quot;')}" loading="lazy" onclick="openProdModal(${pIdx})" style="cursor:pointer" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22><rect fill=%22%23f5f5f5%22 width=%22300%22 height=%22300%22/><text x=%2250%%22 y=%2250%%22 fill=%22%23f85606%22 font-size=%2240%22 text-anchor=%22middle%22>✨</text></svg>'">
       <div class="daraz-ship">🚚 Free Delivery</div>
       <div class="card-body">
-        <div class="card-title">${p.t}</div>
+        <div class="card-title" onclick="openProdModal(${pIdx})" style="cursor:pointer">${p.t}</div>
         <div class="card-price">Rs. ${parseFloat(p.p).toLocaleString()}</div>
         ${sale ? `<div class="card-old">Rs. ${sale.was.replace('Rs ','')}</div>` : ''}
         <div class="card-meta"><span class="card-stars">${stars}</span> ${rating} | ${sold} sold</div>
@@ -576,6 +576,70 @@ function sendChat(){
     botSay(ans);
   }, 600);
 }
+// Product Detail Modal
+function openProdModal(pIdx){
+  trackView(pIdx);
+  const p = PRODUCTS[pIdx];
+  if(!p) return;
+  const sale = saleInfo(pIdx, p.p);
+  const rating = (4 + (pIdx % 10) / 10).toFixed(1);
+  const sold = 50 + (pIdx * 37) % 900;
+  const stars = '★'.repeat(Math.round(parseFloat(rating)));
+  const price = parseFloat(p.p).toLocaleString();
+  // Generate description based on category
+  const desc = getProdDesc(p);
+  document.getElementById('prodModalContent').innerHTML = `
+    <div style="position:relative;background:#f3f0ff;min-height:300px;display:flex;align-items:center;justify-content:center;padding:20px">
+      ${sale ? `<div style="position:absolute;top:14px;left:14px;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;font-size:.78rem;font-weight:700;padding:5px 14px;border-radius:20px">-${sale.off}% OFF</div>` : ''}
+      <img id="prodMainImg" src="${p.i}" alt="${p.t.replace(/"/g,'&quot;')}" style="max-width:100%;max-height:400px;object-fit:contain;border-radius:12px" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect fill=%22%23f3f0ff%22 width=%22400%22 height=%22400%22/><text x=%2250%%22 y=%2250%%22 fill=%22%237c3aed%22 font-size=%2260%22 text-anchor=%22middle%22>✨</text></svg>'">
+    </div>
+    <div style="padding:28px">
+      <div style="font-size:.75rem;color:#7c3aed;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:600">${p.c}</div>
+      <h2 style="font-size:1.4rem;color:#2d2a32;margin-bottom:12px;line-height:1.4">${p.t}</h2>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+        <span style="color:#ff9800;letter-spacing:2px">${stars}</span>
+        <span style="color:#666;font-size:.9rem">${rating}</span>
+        <span style="color:#999;font-size:.85rem">| ${sold} sold</span>
+      </div>
+      <div style="margin-bottom:6px">
+        <span style="font-size:1.8rem;font-weight:800;color:#7c3aed">Rs. ${price}</span>
+        ${sale ? `<span style="font-size:1rem;color:#bbb;text-decoration:line-through;margin-left:10px">Rs. ${sale.was.replace('Rs ','')}</span>` : ''}
+      </div>
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:10px 14px;margin:14px 0;font-size:.88rem;color:#166534">
+        🚚 <b>Free Delivery</b> | 💵 Cash on Delivery | ↩️ 7-Day Easy Return
+      </div>
+      <p style="color:#666;font-size:.92rem;line-height:1.7;margin-bottom:18px">${desc}</p>
+      <a href="https://wa.me/923277518208?text=${encodeURIComponent('Hi GlamKart! I want to order:\n\n📦 ' + p.t + '\n💰 Price: Rs. ' + price + '\n\nPlease confirm my order!')}" target="_blank" rel="noopener" class="btn" style="width:100%;text-align:center;font-size:1.05rem;padding:15px">Order on WhatsApp 🛒</a>
+      <p style="text-align:center;color:#999;font-size:.8rem;margin-top:12px">📦 Delivery in 3-5 working days across Pakistan</p>
+    </div>`;
+  document.getElementById('prodModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeProdModal(){
+  document.getElementById('prodModal').style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+function getProdDesc(p){
+  const t = p.t.toLowerCase();
+  const c = p.c.toLowerCase();
+  if(c.includes('perfume') || t.includes('perfume') || t.includes('attar'))
+    return "✨ Long-lasting premium fragrance that keeps you fresh all day! Perfect for daily use and special occasions. 100% original with beautiful packaging — ideal as a gift too! 🎁";
+  if(c.includes('jewel') || t.includes('ring') || t.includes('necklace') || t.includes('earring') || t.includes('bracelet'))
+    return "💎 Elegant premium-quality jewelry with stunning finish! Tarnish-resistant, skin-friendly, and perfect for parties, weddings, and daily wear. Comes in beautiful gift packaging! ✨";
+  if(c.includes('watch'))
+    return "⌚ Stylish premium watch with elegant design! Durable build, comfortable strap, and perfect for both casual and formal looks. A must-have accessory! ✨";
+  if(c.includes('bag') || t.includes('handbag') || t.includes('purse'))
+    return "👜 Premium quality handbag with spacious design! Durable material, elegant look, and perfect for daily use. Carry your essentials in style! ✨";
+  if(t.includes('serum') || t.includes('cream') || c.includes('skincare') || c.includes('beauty'))
+    return "🧴 Premium skincare formula for glowing, healthy skin! Gentle on all skin types, visible results with regular use. 100% original product! ✨";
+  if(t.includes('lipstick') || t.includes('makeup') || c.includes('cosmetic'))
+    return "💄 High-quality cosmetic with rich color and long-lasting formula! Perfect finish, easy application, and suitable for all skin tones. Look gorgeous every day! ✨";
+  return "✨ Premium quality product from GlamKart! 100% original, carefully checked before dispatch. Cash on Delivery available across Pakistan with 7-day easy return! 🛍️";
+}
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape') closeProdModal();
+});
 // Flash sale countdown (resets daily at midnight)
 (function(){
   function tick(){
@@ -666,5 +730,23 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
     </div>`).join('');
 })();
 </script>
+<!-- Product Detail Modal -->
+<div id="prodModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:300;align-items:center;justify-content:center;padding:16px" onclick="if(event.target==this)closeProdModal()">
+  <div id="prodModalBox" style="background:#fff;border-radius:20px;max-width:800px;width:100%;max-height:90vh;overflow-y:auto;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <span onclick="closeProdModal()" style="position:absolute;top:12px;right:16px;font-size:1.5rem;cursor:pointer;z-index:2;background:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2)">✕</span>
+    <div id="prodModalContent" style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+</div>
+<style>
+@media(max-width:600px){
+  #prodModalContent{grid-template-columns:1fr!important}
+  #prodModalBox{max-height:92vh!important}
+}
+.prod-thumb{width:60px;height:60px;object-fit:cover;border-radius:10px;cursor:pointer;border:2px solid transparent;transition:.2s}
+.prod-thumb.active{border-color:#7c3aed}
+</style>
+
 </body>
 </html>
